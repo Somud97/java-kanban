@@ -1,4 +1,8 @@
-import java.util.Scanner;
+import tracker.controllers.TaskManager;
+import tracker.model.Epic;
+import tracker.model.Subtask;
+import tracker.model.Task;
+import tracker.utils.TaskStatus;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,13 +55,13 @@ public class Main {
         }
 
         System.out.println("\nПробуем удалить сабтаск 3...");
-        taskManager.removeSubtask(subtask3.getUid());
+        taskManager.deleteSubtask(subtask3.getUid());
         if (!taskManager.getSubtasks().contains(subtask3)) {
             System.out.println("Удаление успешно");
         };
 
         System.out.println("\nПробуем удалить епик 2...");
-        taskManager.removeEpic(epic2.getUid());
+        taskManager.deleteEpic(epic2.getUid());
         if (!taskManager.getEpics().contains(epic2)) {
             System.out.println("Удаление успешно");
         };

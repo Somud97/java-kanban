@@ -1,4 +1,8 @@
+package tracker.model;
+
 import java.util.Objects;
+
+import tracker.utils.TaskStatus;
 
 public class Task {
     protected String title;

@@ -1,4 +1,8 @@
+package tracker.model;
+
 import java.util.HashMap;
+
+import tracker.utils.TaskStatus;
 
 public class Epic extends Task {
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
@@ -20,6 +24,14 @@ public class Epic extends Task {
     }
 
     public void setEpicStatus() {
+        boolean isAllSubtasksNew = subtasks.values()
+                .stream()
+                .allMatch(subtask -> subtask.getStatus() == TaskStatus.NEW);
+
+        if (subtasks.isEmpty() || isAllSubtasksNew) {
+            setStatus(TaskStatus.NEW);
+        }
+
         for (Subtask subtask : subtasks.values()) {
             if (subtask.getStatus() == TaskStatus.IN_PROGRESS) {
                 setStatus(TaskStatus.IN_PROGRESS);
