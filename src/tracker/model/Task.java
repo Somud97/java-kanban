@@ -8,12 +8,21 @@ public class Task {
     protected String title;
     protected String description;
     protected TaskStatus status;
-    protected int uid;
+    protected int id;
 
-    public Task(String title, String description) {
+    public Task(String title, String description, int id) {
         this.title = title;
         this.description = description;
         this.status = TaskStatus.NEW;
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setStatus(TaskStatus status) {
@@ -24,12 +33,8 @@ public class Task {
         return status;
     }
 
-    public int getUid() {
-        return uid;
-    }
-
-    public void setId(int uid) {
-        this.uid = uid;
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class Task {
         return "Task{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", uid=" + uid +
+                ", id=" + id +
                 ", status=" + status +
                 '}';
     }
@@ -47,14 +52,14 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
 
         Task task = (Task) o;
-        return uid == task.uid && Objects.equals(title, task.title) && Objects.equals(description, task.description) && status == task.status;
+        return id == task.id && Objects.equals(title, task.title) && Objects.equals(description, task.description) && status == task.status;
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hashCode(title);
         result = 31 * result + Objects.hashCode(description);
-        result = 31 * result + uid;
+        result = 31 * result + id;
         result = 31 * result + Objects.hashCode(status);
         return result;
     }
