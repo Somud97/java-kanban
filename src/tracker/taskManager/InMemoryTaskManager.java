@@ -8,7 +8,6 @@ import tracker.utils.Managers;
 
 import java.util.*;
 
-
 public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Task> tasks = new HashMap<>();
     private final Map<Integer, Epic> epics = new HashMap<>();
@@ -24,30 +23,30 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     @Override
-    public Task createTask(String title, String description) {
-        int taskId = idCounter++;
-        Task task = new Task(title, description, taskId);
+    public Task createTask(Task task) {
         validateTask(task);
+        int taskId = idCounter++;
+        task.setId(taskId);
         tasks.put(taskId, task);
 
         return task;
     }
 
     @Override
-    public Epic createEpic(String title, String description) {
-        int epicId = idCounter++;
-        Epic epic = new Epic(title, description, epicId);
+    public Epic createEpic(Epic epic) {
         validateTask(epic);
+        int epicId = idCounter++;
+        epic.setId(epicId);
         epics.put(epicId, epic);
 
         return epic;
     }
 
     @Override
-    public Subtask createSubtask(String title, String description, int epicId) {
-        int subtaskId = idCounter++;
-        Subtask subtask = new Subtask(title, description, subtaskId, epicId);
+    public Subtask createSubtask(Subtask subtask) {
         validateTask(subtask);
+        int subtaskId = idCounter++;
+        subtask.setId(subtaskId);
         subtasks.put(subtaskId, subtask);
         epics.get(subtask.getEpicId()).addSubtask(subtask);
 

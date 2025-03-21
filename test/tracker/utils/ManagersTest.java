@@ -1,4 +1,4 @@
-package tracker.utils.tests;
+package test.tracker.utils;
 
 import org.junit.jupiter.api.Test;
 import tracker.history.HistoryManager;

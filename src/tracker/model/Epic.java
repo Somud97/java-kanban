@@ -9,8 +9,8 @@ import tracker.utils.TaskStatus;
 public class Epic extends Task {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
 
-    public Epic(String title, String description, int id) {
-        super(title, description, id);
+    public Epic(String title, String description) {
+        super(title, description);
     }
 
     public void addSubtask(Subtask subtask) {

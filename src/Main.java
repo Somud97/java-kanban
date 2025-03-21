@@ -1,7 +1,7 @@
-import tracker.taskManager.TaskManager;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import tracker.model.Task;
+import tracker.taskManager.TaskManager;
 import tracker.utils.Managers;
 
 public class Main {
@@ -30,16 +30,16 @@ public class Main {
     private static TaskManager getInMemoryTaskManager() {
         TaskManager inMemoryTaskManager = Managers.getDefault();
 
-        Task task1 = inMemoryTaskManager.createTask("Создать таск", "Нужно закончить создание таска");
-        Task task2 = inMemoryTaskManager.createTask("Посмотреть сериал", "Досмотреть его уже наконец");
+        Task task1 = inMemoryTaskManager.createTask(new Task("Создать таск", "Нужно закончить создание таска"));
+        Task task2 = inMemoryTaskManager.createTask(new Task("Посмотреть сериал", "Досмотреть его уже наконец"));
 
-        Epic epic1 = inMemoryTaskManager.createEpic("Переезд", "Уехать далеко-далеко");
-        Epic epic2 = inMemoryTaskManager.createEpic("Поиск работы", "Получить как можно больше оферов");
+        Epic epic1 = inMemoryTaskManager.createEpic(new Epic("Переезд", "Уехать далеко-далеко"));
+        Epic epic2 = inMemoryTaskManager.createEpic(new Epic("Поиск работы", "Получить как можно больше оферов"));
 
-        Subtask subtask1 = inMemoryTaskManager.createSubtask("Собрать вещи", "Не забыть про кошку", epic1.getId());
-        Subtask subtask2 = inMemoryTaskManager.createSubtask("Приехать в аэропорт", "Вылет в 9:00", epic1.getId());
+        Subtask subtask1 = inMemoryTaskManager.createSubtask(new Subtask("Собрать вещи", "Не забыть про кошку", epic1.getId()));
+        Subtask subtask2 = inMemoryTaskManager.createSubtask(new Subtask("Приехать в аэропорт", "Вылет в 9:00", epic1.getId()));
 
-        Subtask subtask3 = inMemoryTaskManager.createSubtask("Открыть HH.ru", "Наконец уже", epic2.getId());
+        Subtask subtask3 = inMemoryTaskManager.createSubtask(new Subtask("Открыть HH.ru", "Наконец уже", epic2.getId()));
         return inMemoryTaskManager;
     }
 

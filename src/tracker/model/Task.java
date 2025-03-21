@@ -10,15 +10,18 @@ public class Task {
     protected TaskStatus status;
     protected int id;
 
-    public Task(String title, String description, int id) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
         this.status = TaskStatus.NEW;
-        this.id = id;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -34,7 +37,7 @@ public class Task {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     @Override

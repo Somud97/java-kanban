@@ -3,8 +3,8 @@ package tracker.model;
 public class Subtask extends Task {
     private final int epicId;
 
-    public Subtask(String title, String description, int id, int epicId) {
-        super(title, description, id);
+    public Subtask(String title, String description, int epicId) {
+        super(title, description);
         if (id == epicId) {
             throw new IllegalArgumentException("ID Epic и Subtask должны отличаться");
         }

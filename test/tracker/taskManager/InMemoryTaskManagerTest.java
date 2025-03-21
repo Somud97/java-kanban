@@ -1,4 +1,4 @@
-package tracker.taskManager.tests;
+package test.tracker.taskManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

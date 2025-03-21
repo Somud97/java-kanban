@@ -6,15 +6,14 @@ import java.util.List;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import tracker.model.Task;
-import tracker.utils.TaskStatus;
 
 public interface TaskManager {
 
-    Task createTask(String title, String description);
+    Task createTask(Task task);
 
-    Epic createEpic(String title, String description);
+    Epic createEpic(Epic epic);
 
-    Subtask createSubtask(String title, String description, int epicId);
+    Subtask createSubtask(Subtask subtask);
 
     void updateTask(Task task);
 

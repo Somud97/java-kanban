@@ -2,8 +2,8 @@ package tracker.utils;
 
 import tracker.history.HistoryManager;
 import tracker.history.InMemoryHistoryManager;
-import tracker.taskManager.TaskManager;
 import tracker.taskManager.InMemoryTaskManager;
+import tracker.taskManager.TaskManager;
 
 public class Managers {
     public static TaskManager getDefault() {

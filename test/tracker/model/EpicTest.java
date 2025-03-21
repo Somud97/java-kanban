@@ -1,4 +1,4 @@
-package tracker.model.tests;
+package test.tracker.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
