@@ -1,6 +1,5 @@
 package tracker.taskManager;
 
-import java.util.Deque;
 import java.util.List;
 
 import tracker.model.Epic;
@@ -43,5 +42,5 @@ public interface TaskManager {
 
     Epic getEpicById(int id);
 
-    Deque<Task> getHistory();
+    List<Task> getHistory();
 }

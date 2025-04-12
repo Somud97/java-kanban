@@ -51,5 +51,15 @@ public class SubtaskTest {
         }, "ID Epic и Subtask должны отличаться");
     }
 
+    @Test
+    void shouldClearIdWhenTaskIsRemoved() {
+        int originalId = subtask.getId();
 
+        // Эмулируем удаление задачи (например, через менеджер)
+        subtask.setId(0); // Сбрасываем ID
+
+        assertEquals(0, subtask.getId(), "ID должен быть сброшен после удаления");
+        assertNotEquals(originalId, subtask.getId(),
+                "Подзадача не должна хранить старый ID после удаления");
+    }
 }

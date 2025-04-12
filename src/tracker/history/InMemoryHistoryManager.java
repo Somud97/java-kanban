@@ -1,25 +1,29 @@
 package tracker.history;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.List;
 
 import tracker.model.Task;
+import tracker.utils.CustomLinkedList;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final Deque<Task> taskHistory = new ArrayDeque<>(10);
-    private static final int MAX_HISTORY_SIZE = 10;
-
+    private final CustomLinkedList<Task> history = new CustomLinkedList<>();
 
     @Override
     public void add(Task task) {
-        if (taskHistory.size() >= MAX_HISTORY_SIZE) {
-            taskHistory.removeFirst();
-        }
-        taskHistory.addLast(task);
+        if (task == null) return;
+
+        history.removeNode(task.getId());
+
+        history.linkLast(task);
     }
 
     @Override
-    public Deque<Task> getHistory() {
-        return new ArrayDeque<>(taskHistory);
+    public List<Task> getHistory() {
+        return history.getTasks();
+    }
+
+    @Override
+    public void remove(int id) {
+        history.removeNode(id);
     }
 }

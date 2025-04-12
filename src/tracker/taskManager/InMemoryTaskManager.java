@@ -177,7 +177,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Deque<Task> getHistory() {
+    public List<Task> getHistory() {
         return inMemoryHistoryManager.getHistory();
     }
 }
