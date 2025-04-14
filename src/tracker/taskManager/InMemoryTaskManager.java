@@ -81,11 +81,13 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
+        inMemoryHistoryManager.remove(id);
     }
 
     @Override
     public void deleteSubtask(int id) {
         Subtask subtask = subtasks.remove(id);
+        inMemoryHistoryManager.remove(id);
 
         if (subtask != null) {
             Epic epic = epics.get(subtask.getEpicId());
@@ -97,10 +99,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteEpic(int id) {
         Epic removedEpic = epics.remove(id);
+        inMemoryHistoryManager.remove(id);
 
         if (removedEpic != null) {
             for (int subtaskId : removedEpic.getSubtasks().keySet()) {
                 subtasks.remove(subtaskId);
+                inMemoryHistoryManager.remove(subtaskId);
             }
         }
     }
@@ -108,6 +112,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllTasks() {
         tasks.clear();
+        for (Task task : inMemoryHistoryManager.getHistory()) {
+            if (task.getClass().equals(Task.class)) {
+                inMemoryHistoryManager.remove(task.getId());
+            }
+        }
     }
 
     @Override
@@ -117,12 +126,24 @@ public class InMemoryTaskManager implements TaskManager {
         for (Epic epic : epics.values()) {
             epic.removeAllSubtasks();
         }
+
+        for (Task task : inMemoryHistoryManager.getHistory()) {
+            if (task.getClass().equals(Subtask.class)) {
+                inMemoryHistoryManager.remove(task.getId());
+            }
+        }
     }
 
     @Override
     public void deleteAllEpics() {
         epics.clear();
         subtasks.clear();
+
+        for (Task task : inMemoryHistoryManager.getHistory()) {
+            if (task.getClass().equals(Subtask.class) || task.getClass().equals(Epic.class)) {
+                inMemoryHistoryManager.remove(task.getId());
+            }
+        }
     }
 
     @Override
