@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
@@ -57,7 +56,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    // Переопределяем методы, модифицирующие данные
     @Override
     public Task createTask(Task task) {
         Task createdTask = super.createTask(task);
