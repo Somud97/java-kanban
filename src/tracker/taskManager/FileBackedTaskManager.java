@@ -1,6 +1,7 @@
 
 package tracker.taskManager;
 
+import tracker.exceptions.ManagerSaveException;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import tracker.model.Task;
@@ -52,7 +53,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         subtask.getEpicId()));
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при сохранении в файл:", e);
+            throw new ManagerSaveException("Ошибка при сохранении в файл", e);
         }
     }
 
@@ -172,7 +173,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при чтении из файла", e);
+            throw new ManagerSaveException("Ошибка при сохранении в файл", e);
         }
 
         return manager;
