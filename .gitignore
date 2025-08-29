@@ -15,7 +15,6 @@ dist/
 
 # IDE specific files
 ## IntelliJ IDEA
-.idea/
 *.iml
 *.ipr
 *.iws
