@@ -28,12 +28,10 @@ public class Main {
         inMemoryTaskManager.getEpicById(4);
 
         printAllTasks(inMemoryTaskManager);
-        
-        // Демонстрация нового метода getPrioritizedTasks
+
         System.out.println("\n=== Задачи, отсортированные по приоритету (startTime) ===");
         printPrioritizedTasks(inMemoryTaskManager);
-        
-        // Демонстрация проверки пересечений
+
         System.out.println("\n=== Демонстрация проверки пересечений ===");
         demonstrateOverlapChecking(inMemoryTaskManager);
     }
@@ -43,12 +41,13 @@ public class Main {
 
         // Создаем задачи с duration и startTime (без пересечений)
         Task task1 = inMemoryTaskManager.createTask(
-            new Task("Создать таск", "Нужно закончить создание таска", 
-                    Duration.ofHours(2), LocalDateTime.of(2024, 1, 1, 9, 0))
+                new Task("Создать таск", "Нужно закончить создание таска",
+                        Duration.ofHours(2), LocalDateTime.of(2024, 1, 1, 9, 0))
         );
+
         Task task2 = inMemoryTaskManager.createTask(
-            new Task("Посмотреть сериал", "Досмотреть его уже наконец",
-                    Duration.ofHours(3), LocalDateTime.of(2024, 1, 1, 19, 0))
+                new Task("Посмотреть сериал", "Досмотреть его уже наконец",
+                        Duration.ofHours(3), LocalDateTime.of(2024, 1, 1, 19, 0))
         );
 
         Epic epic1 = inMemoryTaskManager.createEpic(new Epic("Переезд", "Уехать далеко-далеко"));
@@ -56,17 +55,17 @@ public class Main {
 
         // Создаем подзадачи с duration и startTime (без пересечений)
         Subtask subtask1 = inMemoryTaskManager.createSubtask(
-            new Subtask("Собрать вещи", "Не забыть про кошку", epic1.getId(),
-                       Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 12, 0))
+                new Subtask("Собрать вещи", "Не забыть про кошку", epic1.getId(),
+                        Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 12, 0))
         );
         Subtask subtask2 = inMemoryTaskManager.createSubtask(
-            new Subtask("Приехать в аэропорт", "Вылет в 9:00", epic1.getId(),
-                       Duration.ofMinutes(30), LocalDateTime.of(2024, 1, 1, 7, 30))
+                new Subtask("Приехать в аэропорт", "Вылет в 9:00", epic1.getId(),
+                        Duration.ofMinutes(30), LocalDateTime.of(2024, 1, 1, 7, 30))
         );
 
         Subtask subtask3 = inMemoryTaskManager.createSubtask(
-            new Subtask("Открыть HH.ru", "Наконец уже", epic2.getId(),
-                       Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 14, 0))
+                new Subtask("Открыть HH.ru", "Наконец уже", epic2.getId(),
+                        Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 14, 0))
         );
         return inMemoryTaskManager;
     }
@@ -75,7 +74,7 @@ public class Main {
         System.out.println("Задачи:");
         manager.getTasks().stream()
                 .forEach(System.out::println);
-        
+
         System.out.println("Эпики:");
         manager.getEpics().stream()
                 .forEach(epic -> {
@@ -83,7 +82,7 @@ public class Main {
                     epic.getSubtasks().values().stream()
                             .forEach(subtask -> System.out.println("--> " + subtask));
                 });
-        
+
         System.out.println("Подзадачи:");
         manager.getSubtasks().stream()
                 .forEach(System.out::println);
@@ -99,26 +98,26 @@ public class Main {
     private static void printPrioritizedTasks(TaskManager manager) {
         System.out.println("Задачи и подзадачи, отсортированные по времени начала:");
         manager.getPrioritizedTasks().stream()
-                .forEach(task -> System.out.println("[" + task.getStartTime() + "] " + task.getTitle() + 
-                             " (ID: " + task.getId() + ", Тип: " + task.getClass().getSimpleName() + ")"));
-        
+                .forEach(task -> System.out.println("[" + task.getStartTime() + "] " + task.getTitle() +
+                        " (ID: " + task.getId() + ", Тип: " + task.getClass().getSimpleName() + ")"));
+
         System.out.println("\nВсего задач с приоритетом: " + manager.getPrioritizedTasks().size());
     }
 
     private static void demonstrateOverlapChecking(TaskManager manager) {
         System.out.println("1. Проверка пересечений между существующими задачами:");
-        
+
         var prioritizedTasks = manager.getPrioritizedTasks();
         for (int i = 0; i < prioritizedTasks.size(); i++) {
             for (int j = i + 1; j < prioritizedTasks.size(); j++) {
                 Task task1 = prioritizedTasks.get(i);
                 Task task2 = prioritizedTasks.get(j);
-                
+
                 boolean isOverlapping = manager.isTasksOverlapping(task1, task2);
                 System.out.printf("   %s (%s - %s) и %s (%s - %s): %s%n",
-                    task1.getTitle(), task1.getStartTime(), task1.getEndTime(),
-                    task2.getTitle(), task2.getStartTime(), task2.getEndTime(),
-                    isOverlapping ? "ПЕРЕСЕКАЮТСЯ ❌" : "не пересекаются ✅");
+                        task1.getTitle(), task1.getStartTime(), task1.getEndTime(),
+                        task2.getTitle(), task2.getStartTime(), task2.getEndTime(),
+                        isOverlapping ? "ПЕРЕСЕКАЮТСЯ ❌" : "не пересекаются ✅");
             }
         }
 
@@ -126,7 +125,7 @@ public class Main {
         try {
             Task overlappingTask = new Task("Пересекающаяся задача", "Эта задача пересекается с существующей",
                     Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 9, 30)); // Пересекается с task1
-            
+
             manager.createTask(overlappingTask);
             System.out.println("   ❌ Ошибка: задача была создана, хотя должна была быть отклонена");
         } catch (IllegalArgumentException e) {
@@ -137,10 +136,10 @@ public class Main {
         try {
             Task nonOverlappingTask = new Task("Непересекающаяся задача", "Эта задача не пересекается ни с чем",
                     Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 15, 0)); // Не пересекается
-            
+
             Task createdTask = manager.createTask(nonOverlappingTask);
-            System.out.println("   ✅ Успешно создана: " + createdTask.getTitle() + 
-                             " (" + createdTask.getStartTime() + " - " + createdTask.getEndTime() + ")");
+            System.out.println("   ✅ Успешно создана: " + createdTask.getTitle() +
+                    " (" + createdTask.getStartTime() + " - " + createdTask.getEndTime() + ")");
         } catch (IllegalArgumentException e) {
             System.out.println("   ❌ Ошибка: " + e.getMessage());
         }
@@ -149,7 +148,7 @@ public class Main {
         try {
             Task taskToUpdate = manager.getTasks().get(0); // Берем первую задачу
             taskToUpdate.setStartTime(LocalDateTime.of(2024, 1, 1, 12, 30)); // Пересекается с subtask1
-            
+
             manager.updateTask(taskToUpdate);
             System.out.println("   ❌ Ошибка: задача была обновлена, хотя должна была быть отклонена");
         } catch (IllegalArgumentException e) {
