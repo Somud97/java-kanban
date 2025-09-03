@@ -83,8 +83,6 @@ public class InMemoryTaskManager implements TaskManager {
             return false;
         }
 
-        // Математический метод наложения отрезков:
-        // Два отрезка пересекаются, если НЕ выполняется условие: end1 <= start2 OR end2 <= start1
         return !(end1.isBefore(start2) || end1.isEqual(start2) ||
                 end2.isBefore(start1) || end2.isEqual(start1));
     }
@@ -157,7 +155,6 @@ public class InMemoryTaskManager implements TaskManager {
         Task oldTask = tasks.get(task.getId());
         removeFromPrioritizedTasks(oldTask);
 
-        // Проверяем пересечения с другими задачами (исключая саму задачу)
         if (task.getStartTime() != null && task.getDuration() != null) {
             boolean hasOverlaps = prioritizedTasks.stream()
                     .anyMatch(existingTask ->
