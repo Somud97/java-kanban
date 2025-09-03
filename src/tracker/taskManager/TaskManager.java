@@ -43,4 +43,21 @@ public interface TaskManager {
     Epic getEpicById(int id);
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
+
+    /**
+     * Проверяет, пересекаются ли две задачи по времени выполнения
+     * @param task1 первая задача
+     * @param task2 вторая задача
+     * @return true если задачи пересекаются, false если нет
+     */
+    boolean isTasksOverlapping(Task task1, Task task2);
+
+    /**
+     * Проверяет, пересекается ли задача с любой другой задачей в менеджере
+     * @param task задача для проверки
+     * @return true если есть пересечения, false если нет
+     */
+    boolean hasTaskOverlaps(Task task);
 }

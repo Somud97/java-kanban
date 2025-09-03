@@ -1,16 +1,25 @@
 package tracker.model;
 
-import java.util.EnumMap;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import tracker.utils.TaskStatus;
+import tracker.utils.TaskType;
 
 public class Epic extends Task {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    private LocalDateTime endTime;
 
     public Epic(String title, String description) {
         super(title, description);
+    }
+
+    public Epic(String title, String description, Duration duration, LocalDateTime startTime) {
+        super(title, description, duration, startTime);
     }
 
     public void addSubtask(Subtask subtask) {
@@ -18,6 +27,7 @@ public class Epic extends Task {
             throw new IllegalArgumentException("ID Epic и Subtask должны отличаться");
         }
         subtasks.put(subtask.getId(), subtask);
+        updateEpicTime();
     }
 
     public Map<Integer, Subtask> getSubtasks() {
@@ -26,28 +36,68 @@ public class Epic extends Task {
 
     public void removeSubtask(int subtaskId) {
         subtasks.remove(subtaskId);
+        updateEpicTime();
     }
 
     public void removeAllSubtasks() {
         subtasks.clear();
         this.updateEpicStatus();
+        updateEpicTime();
+    }
+
+    private void updateEpicTime() {
+        if (subtasks.isEmpty()) {
+            this.duration = null;
+            this.startTime = null;
+            this.endTime = null;
+            return;
+        }
+
+        LocalDateTime earliestStart = subtasks.values().stream()
+                .map(Subtask::getStartTime)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+
+        LocalDateTime latestEnd = subtasks.values().stream()
+                .map(Subtask::getEndTime)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+
+        // Суммарная длительность только если есть хотя бы одна ненулевая длительность
+        java.util.Optional<Duration> summedDuration = subtasks.values().stream()
+                .map(Subtask::getDuration)
+                .filter(Objects::nonNull)
+                .reduce(Duration::plus);
+
+        this.startTime = earliestStart;
+        this.endTime = latestEnd;
+        this.duration = summedDuration.orElse(null);
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        // Если endTime ещё не вычислено (например, у эпика нет подзадач),
+        // используем поведение базового класса: startTime + duration
+        if (endTime != null) {
+            return endTime;
+        }
+        return null;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     private Map<TaskStatus, Integer> countSubtaskStatuses() {
-        Map<TaskStatus, Integer> statusCounts = new EnumMap<>(TaskStatus.class);
-
-        for (int subtaskId : this.getSubtasks().keySet()) {
-            Subtask subtask = subtasks.get(subtaskId);
-
-            if (subtask == null) {
-                continue;
-            }
-
-            TaskStatus status = subtask.getStatus();
-            statusCounts.put(status, statusCounts.getOrDefault(status, 0) + 1);
-        }
-
-        return statusCounts;
+        return this.getSubtasks().keySet().stream()
+                .map(subtasks::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(
+                        Subtask::getStatus,
+                        Collectors.collectingAndThen(Collectors.counting(), Long::intValue)
+                ));
     }
 
     private TaskStatus calculateEpicStatus(int completed, int inProgress) {
@@ -77,6 +127,11 @@ public class Epic extends Task {
     }
 
     @Override
+    public TaskType getType() {
+        return TaskType.EPIC;
+    }
+
+    @Override
     public String toString() {
         return "Epic{" +
                 "subtasks=" + subtasks.values() +
@@ -84,6 +139,9 @@ public class Epic extends Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", id=" + id +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 '}';
     }
 }
