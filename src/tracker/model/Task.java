@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import tracker.utils.TaskStatus;
+import tracker.utils.TaskType;
 
 public class Task {
     protected String title;
@@ -73,6 +74,10 @@ public class Task {
             return startTime.plus(duration);
         }
         return null;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     @Override

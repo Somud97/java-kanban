@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import tracker.utils.TaskStatus;
+import tracker.utils.TaskType;
 
 public class Epic extends Task {
     private final Map<Integer, Subtask> subtasks = new HashMap<>();
@@ -83,7 +84,7 @@ public class Epic extends Task {
         if (endTime != null) {
             return endTime;
         }
-        return super.getEndTime();
+        return null;
     }
 
     public void setEndTime(LocalDateTime endTime) {
@@ -124,6 +125,11 @@ public class Epic extends Task {
         // Определяем и устанавливаем статус эпика
         TaskStatus epicStatus = calculateEpicStatus(completed, inProgress);
         this.setStatus(epicStatus);
+    }
+
+    @Override
+    public TaskType getType() {
+        return TaskType.EPIC;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package tracker.model;
 
+import tracker.utils.TaskType;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -14,6 +16,11 @@ public class Subtask extends Task {
         this.epicId = epicId;
         this.duration = duration;
         this.startTime = startTime;
+    }
+
+    @Override
+    public TaskType getType() {
+        return TaskType.SUBTASK;
     }
 
     public int getEpicId() {

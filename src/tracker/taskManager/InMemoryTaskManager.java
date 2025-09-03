@@ -5,6 +5,7 @@ import tracker.model.Task;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import tracker.utils.Managers;
+import tracker.utils.TaskType;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -43,7 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
     private void addToPrioritizedTasks(Task task) {
         // В приоритизированный список попадают только Task и Subtask.
         // Epics исключаем, чтобы их интервалы не конфликтовали с подзадачами.
-        if (task instanceof Epic) {
+        if (task.getType().equals(TaskType.EPIC)) {
             return;
         }
         if (task.getStartTime() != null) {
@@ -123,12 +124,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         validateTask(epic);
-        validateNoOverlaps(epic);
         
         int epicId = idCounter++;
         epic.setId(epicId);
         epics.put(epicId, epic);
-        addToPrioritizedTasks(epic);
 
         return epic;
     }
@@ -235,7 +234,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteEpic(int id) {
         Epic removedEpic = epics.remove(id);
         if (removedEpic != null) {
-            removeFromPrioritizedTasks(removedEpic);
             removedEpic.getSubtasks().keySet().stream()
                     .forEach(subtaskId -> {
                         Subtask subtask = subtasks.remove(subtaskId);
@@ -274,8 +272,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllEpics() {
-        epics.values().stream()
-                .forEach(this::removeFromPrioritizedTasks);
         subtasks.values().stream()
                 .forEach(this::removeFromPrioritizedTasks);
         epics.clear();
