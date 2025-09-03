@@ -34,6 +34,10 @@ class EpicTest {
         LocalDateTime startTime = LocalDateTime.of(2024, 1, 1, 10, 0);
 
         Epic epicWithTime = new Epic("Epic with time", "Description", duration, startTime);
+        epicWithTime.setId(1);
+        Subtask epicSubtask = new Subtask("Epic with time", "Description", epicWithTime.getId(), duration, startTime);
+        epicSubtask.setId(2);
+        epicWithTime.addSubtask(epicSubtask);
 
         assertEquals(duration, epicWithTime.getDuration());
         assertEquals(startTime, epicWithTime.getStartTime());

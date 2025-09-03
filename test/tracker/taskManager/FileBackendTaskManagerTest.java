@@ -120,9 +120,12 @@ class FileBackendTaskManagerTest extends TaskManagerTest<FileBackendTaskManager>
     void shouldSaveAndLoadEpicsWithDurationAndStartTime() {
         Duration duration = Duration.ofHours(5);
         LocalDateTime startTime = LocalDateTime.of(2024, 1, 1, 9, 0);
-        
+
         Epic epic = new Epic("Epic 1", "Description 1", duration, startTime);
         manager.createEpic(epic);
+
+        Subtask subtask = new Subtask("Subtask 1", "Description", epic.getId(), duration, startTime);
+        manager.createSubtask(subtask);
 
         FileBackendTaskManager loadedManager = FileBackendTaskManager.loadFromFile(tempFile);
         Epic loadedEpic = loadedManager.getEpics().getFirst();

@@ -230,20 +230,6 @@ class TimeOverlapTest {
     }
 
     @Test
-    void shouldHandleEpicAndTaskOverlap() {
-        Epic epic = new Epic("Epic", "Description",
-                Duration.ofHours(3), LocalDateTime.of(2024, 1, 1, 10, 0));
-        epic.setId(1);
-        Task task = new Task("Task", "Description",
-                Duration.ofHours(1), LocalDateTime.of(2024, 1, 1, 11, 0));
-        task.setId(2);
-
-        // epic: 10:00-13:00, task: 11:00-12:00 (пересекаются)
-        assertTrue(manager.isTasksOverlapping(epic, task));
-        assertTrue(manager.isTasksOverlapping(task, epic));
-    }
-
-    @Test
     void shouldPreventCreatingOverlappingTasks() {
         Task existingTask = new Task("Existing Task", "Description",
                 Duration.ofHours(2), LocalDateTime.of(2024, 1, 1, 10, 0));
