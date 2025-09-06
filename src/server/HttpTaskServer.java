@@ -1,18 +1,12 @@
 package server;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import server.handlers.*;
 import tracker.taskManager.TaskManager;
 import tracker.utils.Managers;
-import server.adapters.DurationAdapter;
-import server.adapters.LocalDateTimeAdapter;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 public class HttpTaskServer {
     private static final int PORT = 8080;
