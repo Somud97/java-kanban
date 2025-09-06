@@ -145,7 +145,7 @@ public class InMemoryTaskManager implements TaskManager {
         int subtaskId = idCounter++;
         subtask.setId(subtaskId);
         subtasks.put(subtaskId, subtask);
-        
+
         epic.addSubtask(subtask);
         addToPrioritizedTasks(subtask);
 
