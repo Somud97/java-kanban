@@ -79,7 +79,7 @@ public class Main {
         manager.getEpics().stream()
                 .forEach(epic -> {
                     System.out.println(epic);
-                    epic.getSubtasks().values().stream()
+                    epic.getSubtasks().stream()
                             .forEach(subtask -> System.out.println("--> " + subtask));
                 });
 

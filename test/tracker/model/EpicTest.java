@@ -51,7 +51,7 @@ class EpicTest {
         epic.addSubtask(subtask);
 
         assertEquals(1, epic.getSubtasks().size());
-        assertTrue(epic.getSubtasks().containsValue(subtask));
+        assertTrue(epic.getSubtasks().contains(subtask));
     }
 
     @Test
