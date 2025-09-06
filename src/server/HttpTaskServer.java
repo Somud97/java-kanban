@@ -62,10 +62,10 @@ public class HttpTaskServer {
         try {
             HttpTaskServer server = new HttpTaskServer();
             server.start();
-            
+
             // Добавляем обработчик для graceful shutdown
             Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
-            
+
             // Ждем бесконечно, пока сервер работает
             Thread.currentThread().join();
         } catch (IOException e) {
