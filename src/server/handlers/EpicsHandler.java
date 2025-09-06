@@ -26,7 +26,7 @@ public class EpicsHandler extends BaseHttpHandler {
                     handleGetEpicById(exchange);
                 } else if (path.matches("/epics/\\d+/subtasks")) {
                     handleGetSubtasksByEpic(exchange);
-                }else {
+                } else {
                     sendNotFound(exchange, "Неверный путь");
                 }
                 break;
@@ -117,7 +117,7 @@ public class EpicsHandler extends BaseHttpHandler {
                     throw new RuntimeException("Failed to initialize subtasks field", e);
                 }
             }
-            
+
             if (epic.getId() == 0) {
                 // Создание нового эпика
                 Epic createdEpic = taskManager.createEpic(epic);
