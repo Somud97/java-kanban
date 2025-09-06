@@ -16,6 +16,8 @@ public interface TaskManager {
 
     void updateTask(Task task);
 
+    void updateEpic(Epic epic);
+
     void updateSubtask(Subtask subtask);
 
     void deleteTask(int id);
@@ -45,6 +47,8 @@ public interface TaskManager {
     List<Task> getHistory();
 
     List<Task> getPrioritizedTasks();
+
+    List<Subtask> getSubtasksByEpic(int epicId);
 
     /**
      * Проверяет, пересекаются ли две задачи по времени выполнения

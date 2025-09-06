@@ -2,7 +2,9 @@ package tracker.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -11,27 +13,40 @@ import tracker.utils.TaskStatus;
 import tracker.utils.TaskType;
 
 public class Epic extends Task {
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks;
     private LocalDateTime endTime;
+
+    public Epic() {
+        super("", "");
+        subtasks = new HashMap<>();
+    }
 
     public Epic(String title, String description) {
         super(title, description);
+        subtasks = new HashMap<>();
     }
 
     public Epic(String title, String description, Duration duration, LocalDateTime startTime) {
         super(title, description, duration, startTime);
+        subtasks = new HashMap<>();
     }
 
     public void addSubtask(Subtask subtask) {
         if (subtask.getId() == this.getId()) {
             throw new IllegalArgumentException("ID Epic и Subtask должны отличаться");
         }
+        if (subtasks == null) {
+            throw new IllegalStateException("Subtasks field is not initialized");
+        }
         subtasks.put(subtask.getId(), subtask);
         updateEpicTime();
     }
 
-    public Map<Integer, Subtask> getSubtasks() {
-        return new HashMap<>(subtasks);
+    public List<Subtask> getSubtasks() {
+        if (subtasks == null) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(subtasks.values());
     }
 
     public void removeSubtask(int subtaskId) {
@@ -43,6 +58,14 @@ public class Epic extends Task {
         subtasks.clear();
         this.updateEpicStatus();
         updateEpicTime();
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     private void updateEpicTime() {
@@ -91,9 +114,7 @@ public class Epic extends Task {
     }
 
     private Map<TaskStatus, Integer> countSubtaskStatuses() {
-        return this.getSubtasks().keySet().stream()
-                .map(subtasks::get)
-                .filter(Objects::nonNull)
+        return this.getSubtasks().stream()
                 .collect(Collectors.groupingBy(
                         Subtask::getStatus,
                         Collectors.collectingAndThen(Collectors.counting(), Long::intValue)
