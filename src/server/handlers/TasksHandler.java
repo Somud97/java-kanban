@@ -44,7 +44,7 @@ public class TasksHandler extends BaseHttpHandler {
                 }
                 break;
             default:
-                sendNotFound(exchange, "Метод не поддерживается");
+                sendMethodNotAllowed(exchange, "Метод не поддерживается");
         }
     }
 
@@ -57,7 +57,7 @@ public class TasksHandler extends BaseHttpHandler {
     private void handleGetTaskById(HttpExchange exchange) throws IOException {
         String idParam = getPathParameter(exchange);
         if (idParam == null) {
-            sendNotFound(exchange, "ID задачи не указан");
+            sendBadRequest(exchange, "ID задачи не указан");
             return;
         }
 
@@ -71,7 +71,7 @@ public class TasksHandler extends BaseHttpHandler {
             String response = gson.toJson(task);
             sendText(exchange, response);
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         }
     }
 
@@ -114,7 +114,7 @@ public class TasksHandler extends BaseHttpHandler {
     private void handleDeleteTaskById(HttpExchange exchange) throws IOException {
         String idParam = getPathParameter(exchange);
         if (idParam == null) {
-            sendNotFound(exchange, "ID задачи не указан");
+            sendBadRequest(exchange, "ID задачи не указан");
             return;
         }
 
@@ -128,7 +128,7 @@ public class TasksHandler extends BaseHttpHandler {
             taskManager.deleteTask(id);
             sendText(exchange, "Задача удалена");
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         }
     }
 }

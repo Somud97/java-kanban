@@ -47,7 +47,7 @@ public class EpicsHandler extends BaseHttpHandler {
                 }
                 break;
             default:
-                sendNotFound(exchange, "Метод не поддерживается");
+                sendMethodNotAllowed(exchange, "Метод не поддерживается");
         }
     }
 
@@ -60,7 +60,7 @@ public class EpicsHandler extends BaseHttpHandler {
     private void handleGetEpicById(HttpExchange exchange) throws IOException {
         String idParam = getPathParameter(exchange);
         if (idParam == null) {
-            sendNotFound(exchange, "ID эпика не указан");
+            sendBadRequest(exchange, "ID эпика не указан");
             return;
         }
 
@@ -74,7 +74,7 @@ public class EpicsHandler extends BaseHttpHandler {
             String response = gson.toJson(epic);
             sendText(exchange, response);
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         }
     }
 
@@ -82,7 +82,7 @@ public class EpicsHandler extends BaseHttpHandler {
         String path = exchange.getRequestURI().getPath();
         String[] pathParts = path.split("/");
         if (pathParts.length < 3) {
-            sendNotFound(exchange, "ID эпика не указан");
+            sendBadRequest(exchange, "ID эпика не указан");
             return;
         }
 
@@ -92,7 +92,7 @@ public class EpicsHandler extends BaseHttpHandler {
             String response = gson.toJson(subtasks);
             sendText(exchange, response);
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         } catch (Exception e) {
             sendNotFound(exchange, e.getMessage());
         }
@@ -141,7 +141,7 @@ public class EpicsHandler extends BaseHttpHandler {
     private void handleDeleteEpicById(HttpExchange exchange) throws IOException {
         String idParam = getPathParameter(exchange);
         if (idParam == null) {
-            sendNotFound(exchange, "ID эпика не указан");
+            sendBadRequest(exchange, "ID эпика не указан");
             return;
         }
 
@@ -155,7 +155,7 @@ public class EpicsHandler extends BaseHttpHandler {
             taskManager.deleteEpic(id);
             sendText(exchange, "Эпик удален");
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         }
     }
 }

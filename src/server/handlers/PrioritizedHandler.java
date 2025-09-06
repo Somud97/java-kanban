@@ -18,7 +18,7 @@ public class PrioritizedHandler extends BaseHttpHandler {
         String path = exchange.getRequestURI().getPath();
 
         if (!method.equals("GET")) {
-            sendNotFound(exchange, "Метод не поддерживается");
+            sendMethodNotAllowed(exchange, "Метод не поддерживается");
             return;
         }
 

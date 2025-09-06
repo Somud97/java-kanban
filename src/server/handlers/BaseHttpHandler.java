@@ -17,14 +17,17 @@ import java.time.LocalDateTime;
 
 public abstract class BaseHttpHandler implements HttpHandler {
     protected final TaskManager taskManager;
-    protected final Gson gson;
+    protected static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .create();
 
     public BaseHttpHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
-        this.gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration.class, new DurationAdapter())
-                .create();
+    }
+
+    public static Gson getGson() {
+        return gson;
     }
 
     @Override
@@ -57,6 +60,14 @@ public abstract class BaseHttpHandler implements HttpHandler {
 
     protected void sendNotFound(HttpExchange exchange, String message) throws IOException {
         sendText(exchange, message, 404);
+    }
+
+    protected void sendMethodNotAllowed(HttpExchange exchange, String message) throws IOException {
+        sendText(exchange, message, 405);
+    }
+
+    protected void sendBadRequest(HttpExchange exchange, String message) throws IOException {
+        sendText(exchange, message, 400);
     }
 
     protected void sendHasInteractions(HttpExchange exchange, String message) throws IOException {

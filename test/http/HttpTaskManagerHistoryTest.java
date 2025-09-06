@@ -1,6 +1,5 @@
 package test.http;
 
-import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,13 +23,11 @@ public class HttpTaskManagerHistoryTest {
 
     private TaskManager manager;
     private HttpTaskServer taskServer;
-    private Gson gson;
     private HttpClient client;
 
     public HttpTaskManagerHistoryTest() throws IOException {
         manager = new InMemoryTaskManager();
         taskServer = new HttpTaskServer(manager);
-        gson = HttpTaskServer.getGson();
         client = HttpClient.newHttpClient();
     }
 

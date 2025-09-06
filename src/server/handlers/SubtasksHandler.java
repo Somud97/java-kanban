@@ -44,7 +44,7 @@ public class SubtasksHandler extends BaseHttpHandler {
                 }
                 break;
             default:
-                sendNotFound(exchange, "Метод не поддерживается");
+                sendMethodNotAllowed(exchange, "Метод не поддерживается");
         }
     }
 
@@ -57,7 +57,7 @@ public class SubtasksHandler extends BaseHttpHandler {
     private void handleGetSubtaskById(HttpExchange exchange) throws IOException {
         String idParam = getPathParameter(exchange);
         if (idParam == null) {
-            sendNotFound(exchange, "ID подзадачи не указан");
+            sendBadRequest(exchange, "ID подзадачи не указан");
             return;
         }
 
@@ -71,7 +71,7 @@ public class SubtasksHandler extends BaseHttpHandler {
             String response = gson.toJson(subtask);
             sendText(exchange, response);
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         }
     }
 
@@ -111,7 +111,7 @@ public class SubtasksHandler extends BaseHttpHandler {
     private void handleDeleteSubtaskById(HttpExchange exchange) throws IOException {
         String idParam = getPathParameter(exchange);
         if (idParam == null) {
-            sendNotFound(exchange, "ID подзадачи не указан");
+            sendBadRequest(exchange, "ID подзадачи не указан");
             return;
         }
 
@@ -125,7 +125,7 @@ public class SubtasksHandler extends BaseHttpHandler {
             taskManager.deleteSubtask(id);
             sendText(exchange, "Подзадача удалена");
         } catch (NumberFormatException e) {
-            sendNotFound(exchange, "Неверный формат ID");
+            sendBadRequest(exchange, "Неверный формат ID");
         }
     }
 }

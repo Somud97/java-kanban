@@ -18,10 +18,6 @@ public class HttpTaskServer {
     private static final int PORT = 8080;
     private final HttpServer server;
     private final TaskManager taskManager;
-    private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .registerTypeAdapter(Duration.class, new DurationAdapter())
-            .create();
 
     public HttpTaskServer() throws IOException {
         this(Managers.getDefault());
@@ -31,10 +27,6 @@ public class HttpTaskServer {
         this.taskManager = taskManager;
         this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
         setupHandlers();
-    }
-
-    public static Gson getGson() {
-        return gson;
     }
 
     private void setupHandlers() {

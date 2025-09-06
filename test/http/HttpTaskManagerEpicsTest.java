@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.HttpTaskServer;
+import server.handlers.BaseHttpHandler;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import tracker.taskManager.InMemoryTaskManager;
@@ -29,7 +30,7 @@ public class HttpTaskManagerEpicsTest {
     public HttpTaskManagerEpicsTest() throws IOException {
         manager = new InMemoryTaskManager();
         taskServer = new HttpTaskServer(manager);
-        gson = HttpTaskServer.getGson();
+        gson = BaseHttpHandler.getGson();
         client = HttpClient.newHttpClient();
     }
 

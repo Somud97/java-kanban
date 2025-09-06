@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.handlers.BaseHttpHandler;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import tracker.model.Task;
@@ -31,7 +32,7 @@ public class HttpTaskManagerPrioritizedTest {
     public HttpTaskManagerPrioritizedTest() throws IOException {
         manager = new InMemoryTaskManager();
         taskServer = new HttpTaskServer(manager);
-        gson = HttpTaskServer.getGson();
+        gson = BaseHttpHandler.getGson();
         client = HttpClient.newHttpClient();
     }
 
